@@ -1,170 +1,193 @@
-# LME Daily Report Generator
+# LME日次レポート生成システム
 
-**Professional LME (London Metal Exchange) Daily Market Report Generation System**
+**プロフェッショナル向けLME（ロンドン金属取引所）日次マーケットレポート自動生成システム**
 
-## 🎯 Overview
+## 🎯 概要
 
-This system generates comprehensive daily market reports for LME metals (Copper, Aluminium, Zinc, Lead, Nickel, Tin) targeting professional traders and institutional investors. It collects data from multiple sources including LME, Shanghai Futures Exchange (SHFE), CME, and generates detailed analysis reports optimized for Claude AI analysis.
+このシステムは、LME金属（銅、アルミニウム、亜鉛、鉛、ニッケル、スズ）の包括的な日次マーケットレポートを生成し、プロフェッショナルトレーダーや機関投資家を対象としています。LME、上海先物取引所（SHFE）、CMEなど複数のソースからデータを収集し、Claude AI分析に最適化された詳細分析レポートを生成します。
 
-## ⚡ Quick Start
+## ⚡ クイックスタート
 
-### Simple Execution
+### 簡単実行
 ```bash
-# Linux/macOS (automatic environment setup)
+# Linux/macOS（自動環境セットアップ）
 ./run_report.sh
 
-# Windows (automatic environment setup)
+# macOS（ダブルクリック実行）
+./run_lme_report.command
+
+# Windows（自動環境セットアップ）
 run_report.bat
 
-# Manual execution
+# 手動実行
 python lme_daily_report.py
 ```
 
-### Output
-- **Report File**: `output/LME_Daily_Report_Input_YYYYMMDD.txt`
-- **Log File**: `logs/lme_report_YYYYMMDD.log`
+### 出力
+- **レポートファイル**: `output/LME_Daily_Report_Input_YYYYMMDD.txt`
+- **ログファイル**: `logs/lme_report_YYYYMMDD.log`
 
-## 🔧 Core Features
+## 🔧 主要機能
 
-### Market Data Coverage
-- **6 LME Metals**: Price data, inventory, trading volume, forward curves
-- **Fund Positions**: Long/short positions for institutional investors
-- **Multi-Exchange Comparison**: LME vs Shanghai vs CME copper curves
-- **Shanghai Premiums**: 3 key indicators (Yangshan Port, CIF, Bonded Warehouse)
-- **Macro Environment**: USD index, yields, VIX, equity markets
-- **News Integration**: 3-day comprehensive news collection with priority filtering
+### マーケットデータカバレッジ
+- **LME 6金属**: 価格データ、在庫、取引量、フォワードカーブ
+- **ファンドポジション**: 機関投資家のロング・ショートポジション
+- **マルチ取引所比較**: LME vs 上海 vs CME銅カーブ
+- **上海プレミアム**: 3大指標（洋山港、CIF、保税倉庫）
+- **マクロ環境**: USD指数、利回り、VIX、株式市場
+- **ニュース統合**: 3日間包括的ニュース収集・優先度フィルタリング
 
-### Advanced Analytics
-- **Dynamic RIC Generation**: Auto-updating LME contract RICs based on execution date
-- **Warrant Analysis**: Detailed LME warrant breakdown (on-warrant, cancelled, ratios)
-- **Cross-Exchange Arbitrage**: Automatic detection of price discrepancies
-- **Trend Analysis**: 5-day, 20-day moving patterns with statistical significance
+### 高度な分析機能
+- **動的RIC生成**: 実行日に基づくLME契約RICの自動更新
+- **ワラント分析**: LMEワラントの詳細内訳（オンワラント、キャンセル、比率）
+- **取引所間裁定**: 価格差の自動検出
+- **トレンド分析**: 5日、20日移動パターンと統計的有意性
 
-## 📊 System Architecture
+## 📊 システム構成
 
 ```
-LME Daily Report Generator
-├── lme_daily_report.py          # Main system
-├── config.json                  # Configuration (RICs, settings)
-├── requirements.txt             # Dependencies
-├── run_report.sh/bat           # Auto-execution scripts
-├── output/                     # Generated reports
-├── logs/                       # Execution logs
-├── tests/                      # Test scripts
-├── development_scripts/        # Development utilities
-├── docs/                       # Documentation
-├── CopperSpreadAnalyzer/       # Integrated spread analysis
-├── CopperSpreadAnalyzer_Standalone/  # Standalone spread system
-└── RefinitivDataExplorer/      # Data exploration tools
+LME日次レポート生成システム
+├── lme_daily_report.py          # メインシステム
+├── config.json                  # 設定ファイル（RIC、設定）
+├── requirements.txt             # 依存関係
+├── run_lme_report.command       # macOS自動実行スクリプト
+├── run_report.sh/bat           # Linux/Windows自動実行スクリプト
+├── output/                     # 生成レポート
+├── logs/                       # 実行ログ
+├── tests/                      # テストスクリプト
+│   ├── error_fixes/            # エラー修正テスト
+│   └── ...                     # その他テスト
+├── development_scripts/        # 開発ユーティリティ
+├── docs/                       # ドキュメント
+├── CopperSpreadAnalyzer/       # 統合スプレッド分析
+├── CopperSpreadAnalyzer_Standalone/  # スタンドアロン版
+└── RefinitivDataExplorer/      # データ探索ツール
 ```
 
-## 🛠 Installation
+## 🛠 インストール
 
-### Requirements
+### 必要条件
 - Python 3.8+
-- Refinitiv Eikon Desktop (running)
-- Valid Eikon API Key
+- Refinitiv Eikon Desktop（実行中）
+- 有効なEikon APIキー
 
-### Dependencies
+### 依存関係
 ```bash
 pip install -r requirements.txt
 ```
 
-**Core packages**: `eikon`, `pandas`, `numpy`  
-**Optional**: `python-dotenv`, `openpyxl`, `colorlog`
+**主要パッケージ**: `eikon`, `pandas`, `numpy`  
+**オプション**: `python-dotenv`, `openpyxl`, `colorlog`
 
-## ⚙️ Configuration
+## ⚙️ 設定
 
-### API Setup
-1. Update `config.json` with your Eikon API key:
+### API設定
+1. `config.json`にEikon APIキーを設定:
 ```json
 {
-  "eikon_api_key": "your_actual_api_key_here"
+  "eikon_api_key": "あなたの実際のAPIキー"
 }
 ```
 
-2. Ensure Eikon Desktop is running and connected
+2. Eikon Desktopが実行中で接続されていることを確認
 
-### Customization
-- **News Settings**: Enable/disable news collection
-- **Market Holidays**: Add custom holiday dates
-- **RIC Alternatives**: Configure fallback RICs for reliability
+### カスタマイズ
+- **ニュース設定**: ニュース収集の有効/無効化
+- **市場休日**: カスタム休日日付の追加
+- **RIC代替**: 信頼性のためのフォールバックRIC設定
 
-## 📈 Report Structure
+## 📈 レポート構造
 
-### For Claude Analysis (2000-3000 words)
-1. **Copper Market Detailed Analysis** (Primary focus)
-   - Multi-exchange price comparison and arbitrage opportunities
-   - Term structure analysis (1-6 months)
-   - Inventory dynamics and warrant analysis
-   - Fund positioning and sentiment analysis
+### Claude分析用（2000-3000語）
+1. **銅市場詳細分析**（主要フォーカス）
+   - マルチ取引所価格比較と裁定機会
+   - 期間構造分析（1-6ヶ月）
+   - 在庫動向とワラント分析
+   - ファンドポジショニングとセンチメント分析
 
-2. **Trading Strategy Sections**
-   - Calendar spread strategies (1M-3M, 3M-6M)
-   - Regional spread analysis (LME-Shanghai, LME-CME)
-   - Outright trading recommendations
-   - Risk management guidelines
+2. **トレーディング戦略セクション**
+   - カレンダースプレッド戦略（1M-3M、3M-6M）
+   - 地域間スプレッド分析（LME-上海、LME-CME）
+   - アウトライト取引推奨
+   - リスク管理ガイドライン
 
-3. **Market Context**
-   - Other metals correlation analysis
-   - Macro environment impact
-   - News analysis with market implications
-   - Forward-looking insights
+3. **マーケットコンテキスト**
+   - 他金属相関分析
+   - マクロ環境影響
+   - 市場示唆付きニュース分析
+   - 前向きな洞察
 
-## 🚀 Advanced Features
+## 🚀 高度な機能
 
-### Multi-Exchange Integration
-- **LME**: Dynamic monthly contract generation (MCU+month+year)
-- **SHFE**: SCFc1-c12 contracts with CNY→USD conversion
-- **CME**: HGc1-c12 contracts with cents/lb→USD/MT conversion
+### マルチ取引所統合
+- **LME**: 動的月次契約生成（MCU+月+年）
+- **SHFE**: SCFc1-c12契約とCNY→USD変換
+- **CME**: HGc1-c12契約とセント/ポンド→USD/MT変換
 
-### Data Quality Assurance
-- Comprehensive error handling and retry logic
-- Alternative RIC fallback mechanisms
-- Business day calculations with weekend/holiday handling
-- API rate limiting compliance
+### データ品質保証
+- 包括的エラーハンドリングとリトライロジック
+- 代替RICフォールバック機構
+- 営業日計算（週末・祝日対応）
+- API制限遵守
 
-### Automation Ready
-- Cross-platform execution scripts
-- Task scheduler integration (Windows XML template provided)
-- Virtual environment auto-setup
-- Unattended operation capabilities
+### 自動化対応
+- クロスプラットフォーム実行スクリプト
+- タスクスケジューラー統合（Windows XMLテンプレート提供）
+- 仮想環境自動セットアップ
+- 無人運用機能
 
-## 📊 Performance
+## 📊 パフォーマンス
 
-- **Execution Time**: 4-5 minutes (full report)
-- **Data Coverage**: 95%+ success rate
-- **Output Size**: ~1,675 lines of structured analysis
-- **API Optimization**: Intelligent caching and batching
+- **実行時間**: 4-5分（完全レポート）
+- **データカバレッジ**: 95%以上の成功率
+- **出力サイズ**: 約1,675行の構造化分析
+- **API最適化**: インテリジェントキャッシュとバッチ処理
 
-## 🔍 Testing
+## 🔍 テスト
 
 ```bash
-# Run comprehensive tests
+# 包括的テスト実行
 cd tests/
-python test_fund_positions_complete.py     # Fund position verification
-python test_three_exchanges_integration.py # Multi-exchange testing
-python test_dynamic_ric.py                 # Dynamic RIC generation
+python test_fund_positions_complete.py     # ファンドポジション検証
+python test_three_exchanges_integration.py # マルチ取引所テスト
+python test_dynamic_ric.py                 # 動的RIC生成
+
+# エラー修正テスト
+cd tests/error_fixes/
+python test_china_indicators.py            # 中国経済指標テスト
+python test_comex_fields.py                # COMEX在庫データテスト
+python test_gold_price.py                  # 金価格・比率計算テスト
 ```
 
-## 📚 Documentation
+## 📚 ドキュメント
 
-- **System Guide**: `docs/CLAUDE.md`
-- **API Reference**: `docs/README.md`
-- **Task Scheduling**: `docs/task_scheduler_template.xml`
+- **システムガイド**: `docs/CLAUDE.md`
+- **APIリファレンス**: `docs/README.md`
+- **タスクスケジューリング**: `docs/task_scheduler_template.xml`
+- **エラー修正履歴**: `tests/error_fixes/README.md`
 
-## 🤝 Support
+## 🔧 最新のエラー修正（2025年7月）
 
-- **Issues**: GitHub Issues
-- **Development**: See `development_scripts/` for analysis tools
-- **Testing**: See `tests/` for validation scripts
+- **Tinスズ先物**: 16ヶ月制限適用
+- **建玉データ**: OPINT_1で正常取得（TURNOVER削除）
+- **VIX指標**: .VIXIEに更新
+- **米国10年債**: US10YT=RRに更新
+- **中国PMI**: CNPMIB=ECIに更新
+- **金価格統合**: XAU=でCopper/Gold Ratio動的計算
+- **在庫データ**: 全取引所正常動作確認
 
-## 📄 License
+## 🤝 サポート
 
-This project is designed for professional trading and institutional use.
+- **問題報告**: GitHub Issues
+- **開発**: 分析ツールは`development_scripts/`を参照
+- **テスト**: 検証スクリプトは`tests/`を参照
+
+## 📄 ライセンス
+
+このプロジェクトはプロフェッショナルトレーディングと機関投資家向けに設計されています。
 
 ---
 
-**Last Updated**: 2025-06-26  
-**Version**: 2.0 (Major Features Complete)  
-**Compatibility**: LME/SHFE/CME Multi-Exchange Integration
+**最終更新**: 2025-07-05  
+**バージョン**: 3.0（包括的エラー修正完了）  
+**対応**: LME/SHFE/CME マルチ取引所統合
