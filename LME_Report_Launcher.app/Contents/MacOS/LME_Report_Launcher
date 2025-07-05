@@ -1,0 +1,3 @@
+#!/bin/bash
+cd "/Users/Yusuke/VSCode/DailyReport_Git"
+open -a Terminal.app ./run_report.sh

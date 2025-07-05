@@ -395,6 +395,68 @@
     "EMERGING_MARKETS": ".MSCIEF"
   },
   
+  "supply_chain_indicators": {
+    "major_miners": {
+      "FCX.N": "Freeport-McMoRan Inc (世界最大銅鉱山会社)",
+      "VALE.N": "Vale SA (南米最大鉱山会社・銅生産大手)",
+      "BHP.AX": "BHP Group (世界最大鉱山会社・豪州)",
+      "RIO.L": "Rio Tinto PLC (英国・世界2位鉱山会社)",
+      "GLEN.L": "Glencore PLC (スイス・商品取引最大手)",
+      "ANTO.L": "Antofagasta PLC (チリ銅鉱山専業)",
+      "SCCO.N": "Southern Copper Corp (米国・ペルー銅鉱山)"
+    },
+    "sector_indicators": {
+      "XME": "SPDR Metals & Mining ETF (鉱業セクター全体)",
+      "DJP": "DJP Commodity ETF (コモディティ全体)"
+    },
+    "note": "企業株価は生産能力・設備投資・操業状況の間接指標として活用。株価急落は生産問題、株価上昇は生産拡大期待を示唆"
+  },
+  
+  "mine_production_data": {
+    "escondida": {
+      "ric": "CCOCUPRDESM",
+      "name": "Escondida Monthly Copper Production",
+      "description": "世界最大銅鉱山・月次生産統計（kt/月）",
+      "operator": "BHP Billiton (57.5%) + Rio Tinto (30%)",
+      "location": "チリ・アタカマ砂漠",
+      "significance": "全世界銅生産の約5%・年産130万トン",
+      "data_lag": "1-2ヶ月ディレイ",
+      "strategic_importance": "ストライキ・設備トラブル時の市場インパクト甚大",
+      "unit": "kt/month",
+      "normal_range": "80-120",
+      "annual_capacity": "1300"
+    },
+    "note": "月次ディレイがあっても生産トレンド・季節性・中長期サプライ予測に極めて重要"
+  },
+  
+  "demand_indicators": {
+    "china_copper_consumers": {
+      "600690.SS": "青島海爾 (Haier・家電大手・銅需要)",
+      "000333.SZ": "美的集団 (Midea・空調大手・銅需要)",
+      "002594.SZ": "BYD (電気自動車・銅需要急拡大)",
+      "600104.SS": "上海汽車 (SAIC Motor・自動車)"
+    },
+    "note": "中国主要銅消費企業の株価は最終需要の健全性を示す先行指標"
+  },
+  
+  "cost_indicators": {
+    "south_america_fx": {
+      "CLP=": "チリペソ/USD (世界最大産銅国通貨)",
+      "PEN=": "ペルーソル/USD (世界第2位産銅国通貨)"
+    },
+    "note": "南米通貨安＝生産コスト低下＝供給増加圧力"
+  },
+  
+  "smelter_indicators": {
+    "china_smelters": {
+      "600362.SS": "江西銅業 (Jiangxi Copper・中国最大)",
+      "000878.SZ": "雲南銅業 (Yunnan Copper・精錬大手)",
+      "601600.SS": "中国アルミ (精錬技術・非鉄大手)",
+      "600459.SS": "貴研鉄金属 (精錬技術企業)"
+    },
+    "note": "精錬企業株価＝TC/RC環境・精錬マージンの代理指標"
+  },
+  
   "news_settings": {
     "enable_news_collection": true,
     "comprehensive_mode": true,
