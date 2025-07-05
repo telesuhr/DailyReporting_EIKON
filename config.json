@@ -85,9 +85,7 @@
   },
   
   "smm_inventory_rics": {
-    "Copper": "SMM-CUR-BON",
-    "Aluminium": "SMM-ALU-BON",
-    "Zinc": "SMM-ZIN-BON"
+    "Copper": "SMM-CUR-BON"
   },
   
   "fund_position_rics": {
@@ -358,14 +356,14 @@
   
   "macro_rics": {
     "USD_INDEX": ".DXY",
-    "US_10Y_YIELD": "TNX",
+    "US_10Y_YIELD": "US10YT=RR",
     "WTI_CRUDE": "CLc1",
-    "CHINA_PMI": "CNPMIM=ECI",
+    "CHINA_PMI": "CNPMIB=ECI",
     "CHINA_CPI": "CNCPIY=ECI",
     "CHINA_GDP": "CNGDPY=ECI",
     "CHINA_IND_PROD": "CNIPY=ECI",
-    "COPPER_GOLD_RATIO": "XCU/XAU=",
-    "VIX": ".VIX"
+    "GOLD_PRICE": "XAU=",
+    "VIX": ".VIXIE"
   },
 
   "equity_indices": {
@@ -389,12 +387,10 @@
   },
 
   "risk_sentiment_indicators": {
-    "VIX_VOLATILITY": ".VIX",
-    "GOLD_PRICE": "GCc1",
+    "VIX_VOLATILITY": ".VIXIE",
+    "GOLD_PRICE": "XAU=",
     "USD_JPY": "JPY=",
     "US_2Y_10Y_SPREAD": "US2US10=TWEB",
-    "CREDIT_SPREAD": "CDX5YIGS=MP",
-    "COPPER_GOLD_RATIO": "XCU/XAU=",
     "HIGH_YIELD_BONDS": "HYG",
     "EMERGING_MARKETS": ".MSCIEF"
   },

@@ -124,9 +124,7 @@ class LMEReportGenerator:
                     'OPEN_PRC',    # 始値
                     'HIGH_1',      # 高値
                     'LOW_1',       # 安値
-                    'PCTCHNG',     # 変動率
-                    'CASH_PREMI',  # キャッシュプレミアム
-                    'CONTANGO'     # コンタンゴ
+                    'PCTCHNG'      # 変動率
                 ]
                 
                 success = False
@@ -182,9 +180,7 @@ class LMEReportGenerator:
                         'weekly_change': historical_data.get('weekly_change'),
                         'monthly_change': historical_data.get('monthly_change'),
                         'ytd_change': historical_data.get('ytd_change'),
-                        'recent_trend': historical_data.get('recent_trend', {}),
-                        'cash_premium': df['CASH_PREMI'].iloc[0] if 'CASH_PREMI' in df.columns else None,
-                        'contango': df['CONTANGO'].iloc[0] if 'CONTANGO' in df.columns else None
+                        'recent_trend': historical_data.get('recent_trend', {})
                     }
                 else:
                     self.logger.error(f"{metal_name} 全てのRICで価格データ取得失敗、フォールバックデータを使用")
@@ -1496,26 +1492,26 @@ class LMEReportGenerator:
                         except:
                             pass
                     
-                    # 売買代金は従来通りget_dataで取得
-                    fields = ['TURNOVER']
+                    # 建玉（Open Interest）をget_dataで取得
+                    fields = ['OPINT_1']
                     df, err = ek.get_data(ric, fields)
                     if err:
-                        self.logger.warning(f"{metal_name} 売買代金データ警告: {err}")
+                        self.logger.warning(f"{metal_name} 建玉データ警告: {err}")
                     
-                    # 売買代金の取得
-                    turnover = None
-                    if not df.empty and 'TURNOVER' in df.columns:
-                        value = df['TURNOVER'].iloc[0]
+                    # 建玉の取得
+                    open_interest = None
+                    if not df.empty and 'OPINT_1' in df.columns:
+                        value = df['OPINT_1'].iloc[0]
                         if value is not None and not pd.isna(value):
-                            turnover = value
+                            open_interest = value
+                            self.logger.info(f"{metal_name} 建玉: {open_interest:,.0f} 契約")
                     
                     # 取引量トレンド分析（前営業日の出来高を渡す）
                     volume_trend = self._get_volume_trend(ric, current_volume=volume)
                     
                     volume_data[metal_name] = {
                         'volume': volume,
-                        'open_interest': None,  # このデータは利用できない場合が多い
-                        'turnover': turnover,
+                        'open_interest': open_interest,
                         'trend': volume_trend
                     }
                         
@@ -1613,13 +1609,26 @@ class LMEReportGenerator:
         try:
             # 今日から2年分の第3水曜日を取得
             today = datetime.now()
-            third_wednesdays = self._get_third_wednesdays(today, 24)
+            
+            # 金属別の最大期限設定
+            metal_max_months = {
+                'Copper': 24,
+                'Aluminium': 24,
+                'Zinc': 24,
+                'Lead': 24,
+                'Nickel': 24,
+                'Tin': 16  # スズのみ16ヶ月制限
+            }
             
             metals = ['Copper', 'Aluminium', 'Zinc', 'Lead', 'Nickel', 'Tin']
             
             for metal_name in metals:
                 try:
                     self.logger.info(f"{metal_name} フォワードカーブ取得中...")
+                    
+                    # 金属別の期限で第3水曜日を取得
+                    max_months = metal_max_months.get(metal_name, 24)
+                    third_wednesdays = self._get_third_wednesdays(today, max_months)
                     
                     # 第3水曜日に対応するRICを生成
                     rics = self._generate_lme_rics_for_dates(metal_name, third_wednesdays)
@@ -2190,7 +2199,7 @@ class LMEReportGenerator:
             risk_off_signals = 0
             total_signals = 0
             
-            # VIX分析（恐怖指数）
+            # ボラティリティ分析（恐怖指数）
             vix_data = sentiment_data.get('VIX_VOLATILITY', {})
             vix_value = vix_data.get('value')
             if vix_value is not None and not pd.isna(vix_value):
@@ -4195,13 +4204,13 @@ class LMEReportGenerator:
         # 主要センチメント指標
         lines.append("【主要センチメント指標】")
         
-        # VIX恐怖指数
+        # ボラティリティ指数（CBOE欧州）
         vix_data = sentiment_data.get('VIX_VOLATILITY', {})
         if vix_data:
             vix_value = vix_data.get('value')
             vix_change = vix_data.get('daily_change')
             if vix_value is not None:
-                entry = f"  VIX恐怖指数: {vix_value:.2f}"
+                entry = f"  ボラティリティ指数 (VIXIE): {vix_value:.2f}"
                 if vix_change is not None:
                     entry += f" ({vix_change:+.2f}%)"
                 
